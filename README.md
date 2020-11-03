@@ -1,7 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/PKhuang-TW/Enchanter/blob/master/imgs/MusicBox.jpg">
+  <a href="https://github.com/PKhuang-TW/Enchanter/blob/master/imgs/3.jpg">
     <img src="imgs/MusicBox.jpg" alt="MusicBox">
   </a>
   <h3 align="center">Music Box</h3>
