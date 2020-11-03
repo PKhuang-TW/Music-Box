@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/PKhuang-TW/Enchanter/blob/master/imgs/3.jpg">
-    <img src="imgs/3.jpg" alt="MusicBox">
+    <img src="imgs/3.jpg" alt="MusicBox" width="500">
   </a>
   <h3 align="center">Music Box</h3>
   <p align="center">
@@ -42,7 +42,9 @@ This is a **Self-Made Music Box**,
 
 ### Libraray
 Import all the libraries in ./Library/
-<img src = "./imgs/importLibrary.png" class="projectDetailImg">
+<p align="center">
+  <img src="./imgs/importLibrary.png" width="50%">
+</p>  
 
 ### Music Format
 Music format must be .wav, 8 Bit resolution, 8 KHz sample rate, mono audio. You can convert your audio file with [this site](https://audio.online-convert.com/convert-to-wav).
