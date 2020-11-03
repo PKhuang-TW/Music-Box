@@ -2,7 +2,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/PKhuang-TW/Enchanter/blob/master/imgs/3.jpg">
-    <img src="imgs/MusicBox.jpg" alt="MusicBox">
+    <img src="imgs/3.jpg" alt="MusicBox">
   </a>
   <h3 align="center">Music Box</h3>
   <p align="center">
