@@ -15,7 +15,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-This is a **Self-Made Music Box** built with Arduino. Music will be read through SD module (LC-SD) and output by a 8-Ohm 2W speaker. Buttons on the box supports **Play/Stop, Next/Previous**, LCD was prepared to show music name. However, the LCD module doesn't support Traditional Chinese output, so the LCD was not implemented in this project finally.
+This is a **Self-Made Music Box** built with Arduino. Music will be read through SD module (LC-SD) and output by a 8-Ohm 2W speaker. Buttons on the box supports **Play/Stop, Next/Previous**; LCD was prepared to show music name. However, the LCD module doesn't support Traditional Chinese output, so the LCD was not implemented in this project finally.
 
 - [x] Read Music From SD card
 - [x] Play music from speaker
