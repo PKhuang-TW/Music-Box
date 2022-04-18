@@ -20,17 +20,7 @@ const int nextPin = 5;
 const int prevPin = 6;
 const int ledPin = 8;
 
-bool playFlag = 0;
-int playState = 0;
-int nextState = 0;
-int prevState = 0;
-
-int prev_playState = playState;
-int prev_nextState = nextState;
-int prev_prevState = prevState;
-
-int musicIdx = 0;  // Total Music Count
-int selectIdx = 0;  // Selecting Music Index
+int musicCnt = 0;  // Total Music Count
 //int musicAmount;  // Total Music Count
 char* musicList[NAMESIZE];
 char* pBuffer;  // Declare a pointer to buffer.
@@ -112,10 +102,10 @@ void setup() {
       }
       else{  // If EOF or newline, copy to musicList
         tmp[count] = '\0';
-        musicList[musicIdx] = tmp;
+        musicList[musicCnt] = tmp;
         count = 0;
         tmp = malloc(NAMESIZE);
-        musicIdx += 1;
+        musicCnt += 1;
       }
     }
     free(tmp);
@@ -140,89 +130,89 @@ void setup() {
    * Print Music List
    */
   Serial.println("Print Music List:");
-  for(int i=0 ; i<=musicIdx ; i++){
+  for(int i=0 ; i<=musicCnt ; i++){
     Serial.println(musicList[i]);
   }
 }
 
-void loop(void) {
-  
-  if(selectIdx >= musicIdx)
-    selectIdx = 0;
+boolean buttonPressed (pin) {
+  int _buttonPressed = !digitalRead(pin);
+  return _buttonPressed;
+}
 
-  // Play -> Pin 8
-  if (playState != digitalRead(playPin)){
-      
-    playState = digitalRead(playPin);
-    if(playState == 0)
-      playFlag = !playFlag;
+class MusicBox {
 
-    if(playFlag){
-      Serial.print("Playing Music #");
-      Serial.println(selectIdx);
-      /*
-       * Play music[selectIdx]
-       */
-      song = String(selectIdx);
+  public:
+    void init(){
+      int musicIdx = 0;
+      int playState = 0;
+    }
+
+    void NextMusic () {
+      musicIdx += 1;
+      if(musicIdx >= musicCnt)
+        musicIdx = 0;
+    }
+
+    void PrevMusic () {
+      musicIdx -= 1;
+      if(musicIdx < 0)
+        musicIdx = musicCnt-1;
+    }
+
+    void PlayMusic () {
+      song = String(musicIdx);
       song += ".wav";
       song.toCharArray(song_char, NAMESIZE-1);
       tmrpcm.play(song_char);
-    }else{
-      Serial.println("Stop");
-      /*
-       * Stop Music
-       */
+      playState = 1;
+    }
+
+    void StopMusic () {
       tmrpcm.pause();
+      playState = 0;
+    }
+}
+
+void loop(void) {
+
+  // Play
+  if ( buttonPressed(playPin) ){      
+
+    if( MusicBox.playState ){
+      Serial.println("Stop");
+      MusicBox.StopMusic();
+    }
+    else{
+      Serial.print("Playing Music #");
+      Serial.println(MusicBox.musicIdx);
+      MusicBox.PlayMusic();
     }
   }
 
-  // Next -> Pin 7
-  if (nextState != digitalRead(nextPin)){
-    nextState = digitalRead(nextPin);
-
-    if(nextState == 1){
-      selectIdx += 1;
-      if(selectIdx == musicIdx)
-        selectIdx = 0;
+  // Next
+  if ( buttonPressed(nextPin) ){
+      MusicBox.NextMusic();
       Serial.print("Selecting Music #");
-      Serial.println(selectIdx);
-    }
+      Serial.println(MusicBox.musicIdx);
     
-    if(playFlag){
+    if( MusicBox.playState ){
       Serial.print("Playing Music #");
-      Serial.println(selectIdx);
-      /*
-       * Play music[selectIdx]
-       */
-      song = String(selectIdx);
-      song += ".wav";
-      song.toCharArray(song_char, NAMESIZE-1);
-      tmrpcm.play(song_char);
+      Serial.println(MusicBox.musicIdx);
+      MusicBox.PlayMusic();
     }
   }
 
-  // Prev -> Pin 6
-  if (prevState != digitalRead(prevPin)){
-    prevState = digitalRead(prevPin);
-
-    if(prevState == 1){
-      selectIdx -= 1;
-      if(selectIdx < 0)
-        selectIdx = musicIdx-1;
+  // Prev
+  if ( buttonPressed(prevPin) ){
+      MusicBox.PrevMusic();
       Serial.print("Selecting Music #");
-      Serial.println(selectIdx);
-    }
+      Serial.println(MusicBox.musicIdx);
 
-    if(playFlag){
+    if( MusicBox.playState ){
       Serial.print("Playing Music #");
-      Serial.println(selectIdx);
-      /*
-       * Play music[selectIdx]
-       */
-      song = String(selectIdx);
-      song += ".wav";
-      song.toCharArray(song_char, NAMESIZE-1);
-      tmrpcm.play(song_char);
+      Serial.println(MusicBox.musicIdx);
+      MusicBox.PlayMusic();
     }
   }
 }
