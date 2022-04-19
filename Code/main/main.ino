@@ -54,6 +54,7 @@ void setup() {
     myFile.close();  // close the file:
 
     tmrpcm -> quality(1);  // Audio Output
+    tmrpcm -> setVolume(5);
     tmrpcm -> speakerPin = 9; //5,6,11 or 46 on Mega, 9 on Uno, Nano, etc
 
     // Print Music List
