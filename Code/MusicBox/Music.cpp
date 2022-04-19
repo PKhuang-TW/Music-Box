@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <Music.h>
 
 Music::Music() {
     musicCnt = 0;
