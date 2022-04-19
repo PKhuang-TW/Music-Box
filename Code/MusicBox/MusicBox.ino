@@ -38,6 +38,49 @@ char* pBuffer;  // Declare a pointer to buffer.
 String song;
 char song_char[NAMESIZE] = {};
 
+class Music {
+  
+  private:
+    int tmpMusicCharPtr;
+    char* tmpMusicName;
+    char* musicList[NAMESIZE];
+
+    void resetTmpVar() {
+      tmpMusicCharPtr = 0;
+      tmpMusicName = malloc(NAMESIZE);
+    }
+
+  public:
+    int musicCnt;
+
+    void init() {
+      musicCnt = 0;
+      tmpMusicCharPtr = 0;
+      tmpMusicName = malloc(NAMESIZE);
+    }
+
+    void AddMusic(char musicName[NAMESIZE]) {
+      musicList[musicCnt] = musicName;
+      musicCnt += 1;
+    }
+
+    char* GetMusicName(int idx) {
+      return musicList[idx];
+    }
+
+    void CollectMusicChar(char c) {
+      if (c == '\n') {
+        tmpMusicName[tmpMusicCharPtr] = '\0';
+        AddMusic(tmpMusicName);
+        resetTmpVar();
+      }
+      else {
+        tmpMusicName[tmpMusicCharPtr] = c;
+        tmpMusicCharPtr += 1;
+      }
+    }
+}
+
 void setup() {
 
   pinMode(playPin, INPUT);
@@ -97,38 +140,16 @@ void setup() {
    */
   myFile = SD.open("MusicNum.txt");
   if (myFile) {
-    
-    unsigned int fileSize = myFile.size();  // Get the file size.
-    pBuffer = (char*)malloc(fileSize + 1);  // Allocate memory for the file and a terminating null char.
-    pBuffer[fileSize] = '\0';               // Add the terminating null char.
-    myFile.read(pBuffer, fileSize);         // Read the file into the buffer.
-
-    char* tmp = malloc(NAMESIZE);
-    int count = 0;  // counter for char index in tmp
-    for(int i=0 ; i<=fileSize ; i++){
-      if (pBuffer[i] != '\n' && pBuffer[i] != '\0'){  // If isn't EOF or newline
-        tmp[count] = pBuffer[i];
-        count += 1;
-      }
-      else{  // If EOF or newline, copy to musicList
-        tmp[count] = '\0';
-        musicList[musicIdx] = tmp;
-        count = 0;
-        tmp = malloc(NAMESIZE);
-        musicIdx += 1;
-      }
+    Music myMusic();
+    while (myFile.available) {
+      myMusic.CollectMusicChar(myFile.read());  // add char in order
     }
-    free(tmp);
-    free(pBuffer);
+    myMusic.CollectMusicChar('\n');  // end music list
     myFile.close();  // close the file:
-  } else {
-    // if the file didn't open, print an error:
+  }
+  else {  // no file read
     Serial.println("error opening MusicNum.txt");
   }
-  /*
-   * musicList Done
-   */
-
 
   /*
    * Audio Output
@@ -140,8 +161,8 @@ void setup() {
    * Print Music List
    */
   Serial.println("Print Music List:");
-  for(int i=0 ; i<=musicIdx ; i++){
-    Serial.println(musicList[i]);
+  for(int idx=0 ; idx<=myMusic.musicCnt ; idx++){
+    Serial.println(myMusic.GetMusicName[idx]);
   }
 }
 
