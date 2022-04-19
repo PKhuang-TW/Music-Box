@@ -41,13 +41,13 @@ char song_char[NAMESIZE] = {};
 class Music {
   
   private:
-    int tmpMusicCharPtr;
-    char* tmpMusicName;
-    char* musicList[NAMESIZE];
+    int _tmpMusicCharPtr;
+    char* _tmpMusicName;
+    char* _musicList[NAMESIZE];
 
     void resetTmpVar() {
-      tmpMusicCharPtr = 0;
-      tmpMusicName = malloc(NAMESIZE);
+      _tmpMusicCharPtr = 0;
+      _tmpMusicName = malloc(NAMESIZE);
     }
 
   public:
@@ -55,28 +55,28 @@ class Music {
 
     void init() {
       musicCnt = 0;
-      tmpMusicCharPtr = 0;
-      tmpMusicName = malloc(NAMESIZE);
+      _tmpMusicCharPtr = 0;
+      _tmpMusicName = malloc(NAMESIZE);
     }
 
     void AddMusic(char musicName[NAMESIZE]) {
-      musicList[musicCnt] = musicName;
+      _musicList[musicCnt] = musicName;
       musicCnt += 1;
     }
 
     char* GetMusicName(int idx) {
-      return musicList[idx];
+      return _musicList[idx];
     }
 
     void CollectMusicChar(char c) {
       if (c == '\n') {
-        tmpMusicName[tmpMusicCharPtr] = '\0';
-        AddMusic(tmpMusicName);
+        _tmpMusicName[_tmpMusicCharPtr] = '\0';
+        AddMusic(_tmpMusicName);
         resetTmpVar();
       }
       else {
-        tmpMusicName[tmpMusicCharPtr] = c;
-        tmpMusicCharPtr += 1;
+        _tmpMusicName[_tmpMusicCharPtr] = c;
+        _tmpMusicCharPtr += 1;
       }
     }
 }
