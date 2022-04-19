@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include <string.h>
 
-MusicBox::MusicBox(TMRpcm* tmrpcm){
-    musicCnt = 0;
+MusicBox::MusicBox(){}
+MusicBox::MusicBox(TMRpcm* tmrpcm, int _musicCnt){
+    musicCnt = _musicCnt;
     musicIdx = 0;
     playState = 0;
     _tmrpcm = tmrpcm;

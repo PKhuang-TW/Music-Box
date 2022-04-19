@@ -16,8 +16,9 @@ class MusicBox {
         int musicCnt;
         int musicIdx;
         int playState;
-
-        MusicBox(TMRpcm* tmrpcm);
+        
+        MusicBox();
+        MusicBox(TMRpcm* tmrpcm, int _musicCnt);
         void NextMusic ();
         void PrevMusic ();
         void PlayMusic (int idx);
