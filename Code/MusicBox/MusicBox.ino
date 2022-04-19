@@ -5,10 +5,7 @@
 #include <SPI.h>
 #include <SD.h>
 #include <Wire.h>
-//#include <LiquidCrystal_I2C.h>
 #include <TMRpcm.h>
-
-//LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 File root;
 File myFile;
@@ -47,7 +44,6 @@ void setup() {
   
   Serial.begin(9600);
   digitalWrite(ledPin, HIGH);
-//  lcd.begin();
   bool SD_flag = SD.begin(SD_pin);
   
   while (!Serial) {
@@ -55,46 +51,18 @@ void setup() {
   }
   
   tmrpcm.speakerPin = 9; //5,6,11 or 46 on Mega, 9 on Uno, Nano, etc
-
-  // Initial LCD 1602
-//  lcd.backlight();
-//  lcd.clear();
-//  Serial.println("LCD Start!");
-
-
-  /* 
-   * Initial SD card
-   */
-//  lcd.setCursor(0, 0);
-//  lcd.print("Initializing");
-//  lcd.setCursor(0, 1);
-//  lcd.print("SD Card...");
-//  delay(2000);
   
   while(!SD_flag){
     Serial.println("SD Failed!");
-//    lcd.setCursor(0, 0);
-//    lcd.print("SD not Found!");
-//    lcd.setCursor(0, 1);
-//    lcd.print("Please insert SD card again.");
     SD_flag = SD.begin(SD_pin);
     delay(1000);
   }
-//  lcd.clear();
-//  lcd.setCursor(0, 0);
-//  lcd.print("SD");
-//  lcd.setCursor(0, 1);
-//  lcd.print("Initilaized!");
   Serial.println("SD Initilaized!");
   digitalWrite(ledPin, LOW);
   /*
    * SD Initialized
    */
 
-  
-  /*
-   * Establish the musicList for LCD
-   */
   myFile = SD.open("MusicNum.txt");
   if (myFile) {
     
@@ -120,7 +88,7 @@ void setup() {
     }
     free(tmp);
     free(pBuffer);
-    myFile.close();  // close the file:
+    myFile.close();  // close the file
   } else {
     // if the file didn't open, print an error:
     Serial.println("error opening MusicNum.txt");
