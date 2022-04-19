@@ -28,6 +28,40 @@ char* pBuffer;  // Declare a pointer to buffer.
 String song;
 char song_char[NAMESIZE] = {};
 
+class MusicBox {
+
+  public:
+    void init(){
+      int musicIdx = 0;
+      int playState = 0;
+    }
+
+    void NextMusic () {
+      musicIdx += 1;
+      if(musicIdx >= musicCnt)
+        musicIdx = 0;
+    }
+
+    void PrevMusic () {
+      musicIdx -= 1;
+      if(musicIdx < 0)
+        musicIdx = musicCnt-1;
+    }
+
+    void PlayMusic () {
+      song = String(musicIdx);
+      song += ".wav";
+      song.toCharArray(song_char, NAMESIZE-1);
+      tmrpcm.play(song_char);
+      playState = 1;
+    }
+
+    void StopMusic () {
+      tmrpcm.pause();
+      playState = 0;
+    }
+}
+
 void setup() {
 
   pinMode(playPin, INPUT);
@@ -138,40 +172,6 @@ void setup() {
 boolean buttonPressed (pin) {
   int _buttonPressed = !digitalRead(pin);
   return _buttonPressed;
-}
-
-class MusicBox {
-
-  public:
-    void init(){
-      int musicIdx = 0;
-      int playState = 0;
-    }
-
-    void NextMusic () {
-      musicIdx += 1;
-      if(musicIdx >= musicCnt)
-        musicIdx = 0;
-    }
-
-    void PrevMusic () {
-      musicIdx -= 1;
-      if(musicIdx < 0)
-        musicIdx = musicCnt-1;
-    }
-
-    void PlayMusic () {
-      song = String(musicIdx);
-      song += ".wav";
-      song.toCharArray(song_char, NAMESIZE-1);
-      tmrpcm.play(song_char);
-      playState = 1;
-    }
-
-    void StopMusic () {
-      tmrpcm.pause();
-      playState = 0;
-    }
 }
 
 void loop(void) {
