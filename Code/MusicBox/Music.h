@@ -14,8 +14,8 @@ class Music {
     void resetTmpVar();
 
   public:
-    int musicCnt;
     Music();
+    int musicCnt;
     void AddMusic(char musicName[NAMESIZE]);
     char* GetMusicName(int idx);
     void CollectMusicChar(char c);

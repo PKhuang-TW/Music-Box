@@ -97,8 +97,8 @@ void setup() {
    */
   myFile = SD.open("MusicNum.txt");
   if (myFile) {
-    Music myMusic();
-    while (myFile.available) {
+    Music myMusic;
+    while (myFile.available()) {
       myMusic.CollectMusicChar(myFile.read());  // add char in order
     }
     myMusic.CollectMusicChar('\n');  // end music list
@@ -108,8 +108,8 @@ void setup() {
 
     // Print Music List
     Serial.println("Print Music List:");
-    for(int idx=0 ; idx<=myMusic.musicCnt ; idx++){
-      Serial.println(myMusic.GetMusicName[idx]);
+    for(int idx=0 ; idx<myMusic.musicCnt ; idx++){
+      Serial.println(myMusic.GetMusicName(idx));
     }
   }
   else {  // no file read
