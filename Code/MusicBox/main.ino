@@ -8,6 +8,8 @@
 //#include <LiquidCrystal_I2C.h>
 #include <TMRpcm.h>
 
+#include "MusicBox.h"
+
 //LiquidCrystal_I2C lcd(0x27, 16, 2);
 
 File root;
@@ -24,43 +26,6 @@ int musicCnt = 0;  // Total Music Count
 //int musicAmount;  // Total Music Count
 char* musicList[NAMESIZE];
 char* pBuffer;  // Declare a pointer to buffer.
-
-String song;
-char song_char[NAMESIZE] = {};
-
-class MusicBox {
-
-  public:
-    void init(){
-      int musicIdx = 0;
-      int playState = 0;
-    }
-
-    void NextMusic () {
-      musicIdx += 1;
-      if(musicIdx >= musicCnt)
-        musicIdx = 0;
-    }
-
-    void PrevMusic () {
-      musicIdx -= 1;
-      if(musicIdx < 0)
-        musicIdx = musicCnt-1;
-    }
-
-    void PlayMusic () {
-      song = String(musicIdx);
-      song += ".wav";
-      song.toCharArray(song_char, NAMESIZE-1);
-      tmrpcm.play(song_char);
-      playState = 1;
-    }
-
-    void StopMusic () {
-      tmrpcm.pause();
-      playState = 0;
-    }
-}
 
 void setup() {
 
